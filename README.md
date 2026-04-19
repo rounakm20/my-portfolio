@@ -22,7 +22,7 @@ Right now I'm particularly excited about scalable systems and technology that cr
 
 ---
 
-## Tech Stack
+## My Tech Stack
 
 **Frontend**
 
