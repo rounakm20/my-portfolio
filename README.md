@@ -1,53 +1,91 @@
-# Rounak Mishra Portfolio
+🌟 Rounak Mishra — Portfolio
+A cinematic, premium personal portfolio built with modern web technologies. Smooth animations, interactive UI, and a clean dark aesthetic.
+Show Image
+Show Image
+Show Image
+Show Image
+Show Image
 
-Welcome to my personal portfolio! 🌟  
-Hi, I'm **Rounak Mishra**, a passionate Computer Science student and aspiring Software Engineer. I love building **interactive web apps**, creating smooth user experiences, and exploring the latest technologies.
+👨‍💻 About Me
+I'm a 2nd-year B.Tech Computer Science student with a passion for Web Development, UI/UX Design, and building interactive experiences. I love creating projects that blend clean design with powerful functionality.
 
----
+🛠️ Tech Stack
+LayerTechnologyFrameworkReact 18Build ToolViteStylingTailwind CSSAnimationsFramer Motion + GSAPVersion ControlGit & GitHub
 
-## 🚀 About Me
-I am a 2nd-year B.Tech Computer Science student with a keen interest in **Web Development**, **UI/UX Design**, and **React.js**.  
-I enjoy creating projects that showcase both **design** and **functionality**, and I am always learning new tools to improve my skills.
+📁 Project Structure
+my-portfolio/
+├── public/             # Static assets (images, logo)
+├── src/
+│   ├── components/     # All page sections
+│   │   ├── Navbar.jsx
+│   │   ├── Hero.jsx
+│   │   ├── About.jsx
+│   │   ├── Projects.jsx
+│   │   ├── Education.jsx
+│   │   └── Footer.jsx
+│   ├── context/        # App context
+│   ├── App.jsx
+│   └── main.jsx
+├── package.json
+└── vite.config.js
 
----
+🎨 Sections
+Hero
 
-## 💻 Tech Stack
-- **Frontend:** React, Tailwind CSS, Framer Motion  
-- **Version Control:** Git & GitHub  
+Animated intro with typing effect
+3D tilt card with profile photo
+TextPressure background effect
+Smooth entry animations via Framer Motion
 
----
+About
 
-## 🎨 Portfolio Pages
+Personal introduction and skills overview
+Learning journey and interests
 
-### 1. Hero Section
-- The first thing visitors see when they visit your portfolio.  
-- Features animated **intro text**, a **logo**, and a **call-to-action button**.  
-- Smooth entry animations using **Framer Motion** for eye-catching effects.
+Projects
 
-### 2. Home
-- Overview of my profile and skills.  
-- Quick links to **About, Projects, and Contact sections**.  
-- Engaging visuals with modern UI design.
+Apple-inspired scroll stack effect
+Each card shows: title, description, tech stack, live demo & GitHub links
+Projects featured:
 
-### 3. About
-- Detailed information about me.  
-- Highlights my **skills, interests, and learning journey**.  
-- Designed to create a personal connection with visitors.
+🌐 Portfolio Website
+🎨 Lazarev Web Clone
+💊 Pharmacy Management System
+🏥 Arogya — Health Management System
 
-### 4. Projects
-- Showcase of my **portfolio projects**.  
-- Each project includes a **title, description, tech stack, and live/demo links**.  
-- Designed with **cards and hover effects** to make browsing interactive.
 
-### 5. Contact
-- Section for visitors to **reach out via email or social media**.  
-- Includes a **contact form** for direct messages.  
-- Clear **CTA buttons** for easy navigation.
 
-### 6. Footer
-- Contains **social links, GitHub, LinkedIn, and email**.  
-- Provides a **clean summary** of the portfolio.  
-- Minimal and modern design to end the page elegantly.
+Education
 
----
+Academic background and achievements
 
+Footer
+
+Social links — GitHub, LinkedIn, Email
+Clean minimal design
+
+
+🚀 Getting Started
+Prerequisites
+
+Node.js (v16 or higher)
+npm
+
+Installation
+bash# Clone the repo
+git clone https://github.com/rounakm20/my-portfolio.git
+cd my-portfolio
+
+# Install dependencies
+npm install
+
+# Start dev server
+npm run dev
+Open http://localhost:5173 in your browser.
+Build for Production
+bashnpm run build
+
+🔗 Links
+Link🐙 GitHubgithub.com/rounakm20💼 
+
+Built on caffeine, crashes, and a little bit of magic.
