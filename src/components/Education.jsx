@@ -10,7 +10,7 @@ const educationData = [
     institute: "St. Columbus Inter College",
     description:
       "Completed secondary schooling with a focus on Science and Mathematics. Developed early curiosity for computers and logical thinking.",
-    stats: [{ label: "Score", value: "71.9%" }],
+    stats: [{ label: "Score", value: "79.9%" }],
     tags: ["Science", "Maths", "English"],
     bracket: "[ ]",
     live: false,

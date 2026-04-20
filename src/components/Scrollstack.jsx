@@ -7,6 +7,7 @@ export const ScrollStackItem = ({ children, itemClassName = '' }) => (
       transformOrigin: 'top center',
       willChange: 'transform',
       backfaceVisibility: 'hidden',
+      WebkitBackfaceVisibility: 'hidden',
     }}
   >
     {children}
@@ -37,12 +38,19 @@ const ScrollStack = ({
       if (i < cards.length - 1) card.style.marginBottom = `${itemDistance}px`;
     });
 
-    // Cache absolute offsetTop for each card ONCE (no getBoundingClientRect in scroll loop)
     let cardTops = [];
+    let rafId = null;
+    let lastScrollY = -1;
 
+    // Measure natural positions WITHOUT resetting transforms mid-scroll
+    // We do this only once at start and on resize (with a flag to skip if animating)
     const cachePositions = () => {
-      // Reset all transforms before measuring so positions are natural
-      cards.forEach(c => { c.style.transform = 'none'; c.style.filter = 'none'; });
+      // Temporarily remove transforms to get accurate measurements
+      const saved = cards.map(c => c.style.transform);
+      cards.forEach(c => { c.style.transform = 'none'; });
+
+      // Force reflow once
+      void container.offsetHeight;
 
       cardTops = cards.map(card => {
         let top = 0;
@@ -54,17 +62,22 @@ const ScrollStack = ({
         return top;
       });
 
-      update();
+      // Restore transforms immediately so no visual flash
+      cards.forEach((c, i) => { c.style.transform = saved[i] || ''; });
+
+      lastScrollY = -1; // force redraw
+      scheduleUpdate();
     };
 
-    const update = () => {
+    const compute = () => {
       if (!cardTops.length) return;
 
       const scrollTop = window.scrollY;
+      if (scrollTop === lastScrollY) return;
+      lastScrollY = scrollTop;
+
       const viewportH = window.innerHeight;
       const stackPx = (parseFloat(stackPosition) / 100) * viewportH;
-
-      // The scroll position at which the last card finishes pinning
       const lastIdx = cards.length - 1;
       const lastPinStart = cardTops[lastIdx] - stackPx - itemStackDistance * lastIdx;
       const pinEnd = lastPinStart + viewportH * 0.6;
@@ -81,19 +94,23 @@ const ScrollStack = ({
           ty = pinEnd - naturalTop + stackPx + itemStackDistance * i;
         }
 
-        // ── scale: compress when next card starts arriving ──
+        // ── scale: use a wider easing window to avoid abrupt jumps ──
         const nextPinStart = i < lastIdx
           ? cardTops[i + 1] - stackPx - itemStackDistance * (i + 1)
           : Infinity;
 
         let scaleProgress = 0;
         if (scrollTop > nextPinStart) {
-          scaleProgress = Math.min(1, (scrollTop - nextPinStart) / Math.max(1, viewportH * 0.18));
+          // Increased window from 0.18 → 0.45 for much smoother scale transition
+          scaleProgress = Math.min(1, (scrollTop - nextPinStart) / Math.max(1, viewportH * 0.45));
         }
-        const targetScale = baseScale + i * itemScale;
-        const scale = 1 - scaleProgress * (1 - targetScale);
 
-        // ── blur: cards buried deeper get blurred ──
+        // Ease-out cubic for smooth deceleration
+        const eased = 1 - Math.pow(1 - scaleProgress, 3);
+        const targetScale = baseScale + i * itemScale;
+        const scale = 1 - eased * (1 - targetScale);
+
+        // ── blur ──
         let blur = 0;
         if (blurAmount) {
           let above = 0;
@@ -109,21 +126,30 @@ const ScrollStack = ({
       });
     };
 
+    const scheduleUpdate = () => {
+      if (rafId) cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(compute);
+    };
+
     let resizeTimer;
     const onResize = () => {
       clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(cachePositions, 150);
+      resizeTimer = setTimeout(cachePositions, 200);
     };
 
-    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('scroll', scheduleUpdate, { passive: true });
     window.addEventListener('resize', onResize, { passive: true });
 
-    requestAnimationFrame(cachePositions);
+    // Initial measurement after layout settles
+    requestAnimationFrame(() => {
+      requestAnimationFrame(cachePositions);
+    });
 
     return () => {
-      window.removeEventListener('scroll', update);
+      window.removeEventListener('scroll', scheduleUpdate);
       window.removeEventListener('resize', onResize);
       clearTimeout(resizeTimer);
+      if (rafId) cancelAnimationFrame(rafId);
     };
   }, [itemDistance, itemScale, itemStackDistance, stackPosition, baseScale, blurAmount]);
 
