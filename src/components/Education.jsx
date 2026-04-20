@@ -23,7 +23,7 @@ const educationData = [
     institute: "St. Columbus Inter College",
     description:
       "Completed Higher Secondary with Physics, Chemistry & Mathematics. Secured solid academics while building early interest in programming.",
-    stats: [{ label: "Score", value: "71.9%" }],
+    stats: [{ label: "Score", value: "70.9%" }],
     tags: ["Physics", "Chemistry", "Maths"],
     bracket: "{ }",
     live: false,
